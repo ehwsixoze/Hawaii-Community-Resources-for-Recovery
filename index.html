@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hawaii Community Resources for Recovery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            background: rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .resource-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .resource-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .resource-title {
+            color: #667eea;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .resource-icon {
+            width: 24px;
+            height: 24px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .resource-description {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .contact-info {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 3px solid #667eea;
+        }
+
+        .contact-info strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .eligibility {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 3px solid #28a745;
+        }
+
+        .eligibility strong {
+            color: #28a745;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .gender-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #764ba2;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .intro-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .intro-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .intro-section p {
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .emergency-box {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(255,107,107,0.3);
+        }
+
+        .emergency-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+
+        .phone-number {
+            font-size: 1.5em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .navigation {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-btn {
+                width: 200px;
+            }
+            
+            .resource-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌺 Hawaii Community Resources for Recovery 🌺</h1>
+            <p>Supporting Your Journey to Lasting Recovery Through Community Connections</p>
+        </div>
+
+        <div class="intro-section">
+            <h2>Welcome to Your Resource Guide</h2>
+            <p>This presentation provides a comprehensive overview of community resources available to individuals who have completed substance use disorder treatment in Hawaii. These resources are designed to support your continued recovery journey through housing, employment, financial assistance, peer support, and healthcare services.</p>
+            <p><strong>Focus:</strong> Post-treatment community support services (not treatment centers or facilities)</p>
+            
+            <div class="emergency-box">
+                <h3>🚨 Crisis Support Available 24/7</h3>
+                <div class="phone-number">Call 988</div>
+                <p>Hawaii CARES Crisis Line for mental health and substance use support</p>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('overview')">Overview</button>
+            <button class="nav-btn" onclick="showSection('housing')">Housing</button>
+            <button class="nav-btn" onclick="showSection('employment')">Employment</button>
+            <button class="nav-btn" onclick="showSection('financial')">Financial Aid</button>
+            <button class="nav-btn" onclick="showSection('support')">Sober Support</button>
+            <button class="nav-btn" onclick="showSection('healthcare')">Healthcare</button>
+            <button class="nav-btn" onclick="showSection('community')">Community Resources</button>
+        </div>
+
+        <!-- Overview Section -->
+        <div id="overview" class="resource-section active">
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🏠</div>
+                        Housing Resources
+                    </div>
+                    <div class="resource-description">
+                        Clean & sober living environments including state-certified homes and peer-run Oxford Houses providing safe, supportive housing for individuals in recovery.
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">💼</div>
+                        Employment Support
+                    </div>
+                    <div class="resource-description">
+                        Vocational rehabilitation services, job training programs, and employment placement assistance to help individuals achieve financial independence.
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">💰</div>
+                        Financial Assistance
+                    </div>
+                    <div class="resource-description">
+                        Government programs providing temporary financial support, food assistance, and basic needs while individuals work toward self-sufficiency.
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🤝</div>
+                        Peer Support Groups
+                    </div>
+                    <div class="resource-description">
+                        12-step programs and other mutual aid societies providing ongoing peer support, accountability, and community connection.
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🏥</div>
+                        Healthcare Services
+                    </div>
+                    <div class="resource-description">
+                        Mental health services, medical care through Medicaid, and specialized support for individuals with co-occurring disorders.
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">📞</div>
+                        Community Resources
+                    </div>
+                    <div class="resource-description">
+                        Information and referral services connecting individuals to comprehensive community resources and emergency assistance.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Housing Section -->
+        <div id="housing" class="resource-section">
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🏠</div>
+                        Hawaii Clean & Sober Homes Registry
+                    </div>
+                    <div class="resource-description">
+                        State-certified sober living homes that meet quality management and operational standards. Provides safe, clean, and sober environments that support recovery.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Website: cshome.ehawaii.gov<br>
+                        Email: cshome@doh.hawaii.gov<br>
+                        Concerns: cshomecomplaints@doh.hawaii.gov<br>
+                        Phone: 1-877-877-1716
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Must be in recovery from substance abuse; commitment to maintaining sobriety; ability to follow house rules and participate in house meetings.
+                    </div>
+                    <div class="gender-badge">Men, Women, and Families</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🏘️</div>
+                        Oxford House Network
+                    </div>
+                    <div class="resource-description">
+                        Democratically self-run, self-supporting sober living homes. Houses include locations like Oxford House Kalihi, Kalani, Akone, and others throughout Hawaii.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Website: oxfordvacancies.com<br>
+                        Hawaii Office: 350 Ward Ave, Suite 106, Honolulu, HI 96814<br>
+                        National: oxfordhouse.org<br>
+                        Apply online or call individual houses
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Desire to remain drug and alcohol free; completion of detox or treatment program (typically 5-28 days); ability to pay equal expense share; interview and house vote approval.
+                    </div>
+                    <div class="gender-badge">Separate Houses for Men and Women</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🆘</div>
+                        Federal Recovery Housing Program
+                    </div>
+                    <div class="resource-description">
+                        Federal program providing stable, transitional housing for individuals in recovery. Assistance limited to 2 years or until permanent housing is secured.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Administered through Hawaii Department of Human Services<br>
+                        For individuals: findtreatment.gov<br>
+                        More info: HUD.gov/recovery-housing
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        In recovery from substance use disorder; meet state eligibility criteria; income and housing status requirements vary by program.
+                    </div>
+                    <div class="gender-badge">All Individuals in Recovery</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employment Section -->
+        <div id="employment" class="resource-section">
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">💼</div>
+                        Hawaii Division of Vocational Rehabilitation (DVR)
+                    </div>
+                    <div class="resource-description">
+                        Provides services to individuals who experience barriers to employment due to disabilities, including substance use disorders. Offers training, support, and career placement assistance.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Main Office: Hawaii Department of Human Services<br>
+                        Website: humanservices.hawaii.gov/vocationalrehab/<br>
+                        Statewide locations available<br>
+                        Contact local office for assessment
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Have a physical or cognitive disability (including substance use disorder); require vocational rehabilitation services to achieve employment; able to benefit from services.
+                    </div>
+                    <div class="gender-badge">Men and Women</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🎯</div>
+                        First-To-Work Program (FTW-VR)
+                    </div>
+                    <div class="resource-description">
+                        Specialized units serving TANF individuals who are temporarily disabled or recovering from substance/alcohol abuse. Provides employment training and job placement support.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        FTW-VR West Oahu: (808) 792-5105<br>
+                        338 Kamokila Blvd., Suite 206, Kapolei, HI 96707<br>
+                        FTW-VR East Oahu: (808) 737-2800<br>
+                        1075 South Beretania Street, Honolulu, HI 96814<br>
+                        Multiple island locations available
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        TANF recipient; temporarily disabled or recovering from substance abuse; U.S. citizen or qualified immigrant; meet income guidelines.
+                    </div>
+                    <div class="gender-badge">Men, Women, and Families</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🇺🇸</div>
+                        Veteran Readiness and Employment (VR&E)
+                    </div>
+                    <div class="resource-description">
+                        Provides job training, education, employment accommodations, resume development, and job seeking skills coaching for veterans with service-connected disabilities.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Website: benefits.va.gov/vocrehab/<br>
+                        Spark M. Matsunaga VA Medical Center<br>
+                        Contact local VA office for services<br>
+                        Veterans Crisis Line: VeteransCrisisLine.net
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Veteran with service-connected disability; employment handicap due to service-connected condition; eligible for VA benefits.
+                    </div>
+                    <div class="gender-badge">Veterans (All Genders)</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">📚</div>
+                        Network Enterprises Inc. (NEi) VWATS Program
+                    </div>
+                    <div class="resource-description">
+                        Vocational and Work Adjustment Training Services Program providing work-based learning experiences, job training, and employment evaluations.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Website: neihawaii.org<br>
+                        Provides work experience up to 19½ hours per week<br>
+                        Paid at Hawaii minimum wage<br>
+                        Contact through DVR referral
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Deemed significantly disabled or most significantly disabled by DVR counselors; referred by DVR; able to participate in work training.
+                    </div>
+                    <div class="gender-badge">Men and Women</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Section -->
+        <div id="financial" class="resource-section">
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">💰</div>
+                        Temporary Assistance for Needy Families (TANF/TAONF)
+                    </div>
+                    <div class="resource-description">
+                        Provides monthly cash benefits to families for basic needs. TANF is for U.S. citizens, TAONF is Hawaii's state-funded program for non-citizens. Includes requirement for substance abuse treatment if needed.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Website: humanservices.hawaii.gov/bessd/tanf/<br>
+                        Apply: pais-benefits.dhs.hawaii.gov<br>
+                        Toll-free: 1-855-643-1643<br>
+                        Processing centers statewide
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Hawaii resident; families with children under 18; gross income below 185% Federal Poverty Level; must participate in First-To-Work Program; seeking substance abuse treatment if determined necessary.
+                    </div>
+                    <div class="gender-badge">Families with Children</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🍎</div>
+                        Supplemental Nutrition Assistance Program (SNAP)
+                    </div>
+                    <div class="resource-description">
+                        Federal food assistance program providing nutrition benefits through EBT card. Helps families purchase healthy food while working toward self-sufficiency.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Website: humanservices.hawaii.gov/bessd/snap/<br>
+                        Apply: pais-benefits.dhs.hawaii.gov<br>
+                        Toll-free: 1-855-643-1643<br>
+                        Available statewide
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Hawaii resident; meet income guidelines (generally 130% Federal Poverty Level); provide Social Security numbers; cooperate with work requirements if applicable.
+                    </div>
+                    <div class="gender-badge">Individuals and Families</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🏥</div>
+                        General Assistance Program
+                    </div>
+                    <div class="resource-description">
+                        State-funded program providing financial assistance to adults without minor dependents who are unable to work due to physical or mental impairments, including substance use disorders.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Apply through local DHS office<br>
+                        Website: humanservices.hawaii.gov/bessd/<br>
+                        Toll-free: 1-855-643-1643<br>
+                        Must apply for SSI if eligible
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Adults 18-65 without minor dependents; unable to work due to disability; don't qualify for other assistance programs; Hawaii resident; meet income/asset limits.
+                    </div>
+                    <div class="gender-badge">Adult Men and Women</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">💡</div>
+                        Low Income Home Energy Assistance Program (LIHEAP)
+                    </div>
+                    <div class="resource-description">
+                        Federal program providing financial assistance for home heating, cooling, energy crisis intervention, and weatherization for low-income households.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Address: 820 Mililani Street, Suite 606<br>
+                        Honolulu, Hawaii 96813<br>
+                        Contact local community action agency<br>
+                        Information through 211 Hawaii
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Low-income households; meet federal poverty guidelines; Hawaii residents; demonstrate need for energy assistance.
+                    </div>
+                    <div class="gender-badge">All Households</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Groups Section -->
+        <div id="support" class="resource-section">
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🤝</div>
+                        Alcoholics Anonymous (AA) Hawaii
+                    </div>
+                    <div class="resource-description">
+                        Fellowship providing peer support for alcohol recovery through 12-step program. Multiple meetings daily across all Hawaiian islands with various formats including Big Book, discussion, and speaker meetings.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Oahu Central Office: (808) 946-1438<br>
+                        Website: oahuaa.org<br>
+                        Meeting finder: sober.com/aa-meetings/hawaii/<br>
+                        Meetings available on all islands
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Only requirement is a desire to stop drinking; open to anyone with alcohol concerns; no fees or dues.
+                    </div>
+                    <div class="gender-badge">Men, Women, and Mixed Groups</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">💊</div>
+                        Narcotics Anonymous (NA) Hawaii
+                    </div>
+                    <div class="resource-description">
+                        Fellowship for recovery from drug addiction using 12-step program. Meetings available throughout Hawaii focusing on complete abstinence from all drugs.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Website: na.org (meeting locator)<br>
+                        Meeting finder: betteraddictioncare.com/meetings/hawaii/<br>
+                        Local meeting information available<br>
+                        Hawaii-specific meetings listed online
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Only requirement is desire to stop using drugs; open to anyone with drug addiction concerns; no fees or dues.
+                    </div>
+                    <div class="gender-badge">Men, Women, and Mixed Groups</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🧠</div>
+                        SMART Recovery
+                    </div>
+                    <div class="resource-description">
+                        Science-based addiction recovery program emphasizing self-empowerment and self-reliance. Offers alternative to 12-step programs with cognitive-behavioral approaches.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Website: smartrecovery.org<br>
+                        Online meetings available<br>
+                        Local Hawaii meetings - check website<br>
+                        Trained facilitators guide meetings
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Open to anyone seeking recovery from addictive behaviors; includes alcohol, drugs, gambling, and other addictions; no religious requirements.
+                    </div>
+                    <div class="gender-badge">All Genders Welcome</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">👥</div>
+                        Grupo Hawaii (Spanish-Language AA)
+                    </div>
+                    <div class="resource-description">
+                        Oahu's only Spanish-language Alcoholics Anonymous meeting providing culturally appropriate support for Spanish-speaking individuals in recovery.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Meeting: Tuesdays, 7:00 PM<br>
+                        Contact: Oahu AA Central Office (808) 946-1438<br>
+                        Website: oahuaa.org<br>
+                        Location information available through central office
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Spanish-speaking individuals with desire to stop drinking; open to anyone comfortable with Spanish-language format.
+                    </div>
+                    <div class="gender-badge">Men and Women</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Healthcare Section -->
+        <div id="healthcare" class="resource-section">
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">📞</div>
+                        Hawaii CARES 988 Crisis Line
+                    </div>
+                    <div class="resource-description">
+                        24/7 crisis support and mental health services. Provides immediate counseling, referrals to local resources, and substance use support. Operated by trained Hawaii crisis counselors.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Crisis Line: 988 (call or text)<br>
+                        Direct: (808) 832-3100<br>
+                        Toll-free: (800) 753-6879<br>
+                        Available 24/7, all islands
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Anyone experiencing mental health crisis, substance use challenges, or needing emotional support; no eligibility restrictions; confidential service.
+                    </div>
+                    <div class="gender-badge">All Individuals</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🏥</div>
+                        QUEST Integration (Hawaii Medicaid)
+                    </div>
+                    <div class="resource-description">
+                        Hawaii's Medicaid program providing comprehensive healthcare coverage including mental health, substance use treatment, medical care, and prescription drugs for eligible low-income residents.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Website: medquest.hawaii.gov<br>
+                        Apply: Online through KOLEA system<br>
+                        Kaiser Permanente: (808) 948-6486<br>
+                        HMSA QUEST: 1-800-440-0640<br>
+                        Provider directory available online
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Hawaii resident; low-income individuals and families; aged, blind, or disabled individuals; meet federal and state income guidelines.
+                    </div>
+                    <div class="gender-badge">All Eligible Individuals and Families</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🧠</div>
+                        Adult Mental Health Division (AMHD)
+                    </div>
+                    <div class="resource-description">
+                        State mental health services for adults including crisis intervention, case management, and ongoing mental health treatment. Serves individuals with serious mental illness and co-occurring disorders.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Website: health.hawaii.gov/amhd/<br>
+                        Access information available online<br>
+                        Local community mental health centers<br>
+                        Contact through healthcare provider or 988
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Adults with serious mental illness; Hawaii residents; may require clinical assessment; some services available regardless of ability to pay.
+                    </div>
+                    <div class="gender-badge">Adult Men and Women</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">💊</div>
+                        Magellan Hawaii Behavioral Health
+                    </div>
+                    <div class="resource-description">
+                        Behavioral health services provider for QUEST Integration members. Offers mental health counseling, substance use treatment, and care coordination services.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Available through QUEST Integration<br>
+                        Contact through health plan<br>
+                        Provider network available through<br>
+                        HMSA or Kaiser Permanente
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        QUEST Integration (Medicaid) members; clinical necessity for behavioral health services; Hawaii residents.
+                    </div>
+                    <div class="gender-badge">All QUEST Members</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Community Resources Section -->
+        <div id="community" class="resource-section">
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">📞</div>
+                        Aloha United Way 211 Hawaii
+                    </div>
+                    <div class="resource-description">
+                        Hawaii's only comprehensive statewide information and referral helpline connecting individuals with over 4,000 local resources including food, shelter, financial assistance, childcare, and support services.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Phone: Dial 2-1-1 (within Hawaii)<br>
+                        Outside Hawaii: (808) 275-2000<br>
+                        Toll-free: (877) 275-6569<br>
+                        Website: auw211.org<br>
+                        Available 7 AM - 10 PM, seven days a week
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Available to anyone in Hawaii; no eligibility restrictions; free and confidential service; interpretation services available in 180+ languages.
+                    </div>
+                    <div class="gender-badge">All Individuals and Families</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🆘</div>
+                        Hawaii CARES Coordinated Access
+                    </div>
+                    <div class="resource-description">
+                        Coordinated Access Resource Entry System providing universal intake, screening, assessment, and referrals for substance use disorder treatment and recovery support services across Hawaii.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Phone: (808) 832-3100<br>
+                        Toll-free: 1 (800) 753-6879<br>
+                        Website: health.hawaii.gov/substance-abuse/cares/<br>
+                        Qualified treatment specialists available
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Individuals needing substance use treatment or recovery support services; Hawaii residents; no other eligibility restrictions.
+                    </div>
+                    <div class="gender-badge">All Individuals in Need</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🍽️</div>
+                        Salvation Army Hawaii
+                    </div>
+                    <div class="resource-description">
+                        Hawaiian and Pacific Islands Division providing free housing, counseling, food assistance, and employment help for individuals and families working toward self-sufficiency and recovery.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Contact local Salvation Army location<br>
+                        Website: salvationarmyhawaii.org<br>
+                        Multiple locations across Hawaii<br>
+                        Services vary by location
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Individuals and families in need; vary by specific program; generally no income restrictions for basic services; commitment to program participation.
+                    </div>
+                    <div class="gender-badge">Men, Women, and Families</div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-title">
+                        <div class="resource-icon">🏠</div>
+                        Institute for Human Services (IHS)
+                    </div>
+                    <div class="resource-description">
+                        Comprehensive social services agency working to prevent and end homelessness in Hawaii. Provides emergency shelter, case management, and transitional housing services.
+                    </div>
+                    <div class="contact-info">
+                        <strong>Contact Information:</strong>
+                        Website: ihshawaii.org<br>
+                        Contact through 211 for referrals<br>
+                        Multiple program locations<br>
+                        Emergency shelter and services available
+                    </div>
+                    <div class="eligibility">
+                        <strong>Eligibility Requirements:</strong>
+                        Individuals and families experiencing or at risk of homelessness; Hawaii residents; intake assessment required; sobriety requirements vary by program.
+                    </div>
+                    <div class="gender-badge">Men, Women, and Families</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>🌺 Remember: Recovery is a Journey, Not a Destination 🌺</h3>
+            <p>These resources are here to support you every step of the way. Don't hesitate to reach out - help is always available.</p>
+            <p><strong>For immediate crisis support:</strong> Call 988 (Hawaii CARES) or 211 (Community Resources)</p>
+            <p><em>Presentation compiled for educational purposes • Current as of June 2025</em></p>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.resource-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Add smooth scrolling and interaction effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.resource-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
